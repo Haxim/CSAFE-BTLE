@@ -149,7 +149,7 @@ void updateMeasurements() {
 
 void askForData() {
   unsigned long currentMillis = millis();
-  if (newData == false && recvInProgress == false && (currentMillis - previousMillisData >= interval)) {
+  if (newData == false && recvInProgress == false && (currentMillis - previousMillisData >= (interval / 2))) {
     previousMillisData = currentMillis;
     if (cmd == 0 ) {
       Serial.println("Asking for Power");
@@ -191,6 +191,7 @@ void recvWithStartEndMarkers() {
 //                Serial.println("Setting datatype: ");
 //                Serial.println(receivedChars[2], HEX);
                 if ( cmd == 0) bpm = receivedChars[4];
+                else if (receivedChars[5] > 0) power = receivedChars[4] + (receivedChars[5] * 255);
                 else power = receivedChars[4];
                 newData = true;
             }
